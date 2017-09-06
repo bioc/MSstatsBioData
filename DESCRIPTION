@@ -1,0 +1,17 @@
+Package: MSstatsBioData
+Type: Package
+Title: Datasets of published biological studies with DDA or SRM experiments
+Version: 0.99.0
+Date: 2017-09-05
+Author: Meena Choi
+Maintainer: Meena Choi <mnchoi67@gmail.com>
+Description: Provides the peak intensity data for detecting differentially abundant proteins 
+    in seven published biological investigations.
+License: Artistic-2.0
+Depends: R (>= 3.4)
+Suggests: BiocStyle, knitr, MSstats
+VignetteBuilder: knitr
+biocViews: ExperimentData, MassSpectrometryData, Proteome
+NeedsCompilation: no
+Encoding: UTF-8
+LazyData: true
