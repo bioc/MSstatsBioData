@@ -23,5 +23,23 @@ Surinova, S. et al. (2015) Prediction of colorectal cancer diagnosis based on ci
 \examples{
 ## Intensities are already normalized as described in the reference.
 data(SRM_crc_training)
+
+## Example of using MSstats for differential abundance analysis.
+require(MSstats)
+input.proposed <- dataProcess(SRM_crc_training, 
+                            normalization=FALSE, 
+                            summaryMethod="TMP",
+                            cutoffCensored="minFeature", 
+                            censoredInt="NA", 
+                            MBimpute=TRUE,
+                            maxQuantileforCensored=0.999)
+                
+comparison<-matrix(c(1,-1),nrow=1)
+row.names(comparison)<-c("Disease-Healthy")
+
+output.comparison <- groupComparison(contrast.matrix=comparison, 
+                            data=input.proposed)
+head(output.comparison$ComparisonResult)
+                                    
 }
 \keyword{datasets}

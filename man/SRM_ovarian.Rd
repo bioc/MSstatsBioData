@@ -23,5 +23,22 @@ Huttenhain, R. et al. (2012) Reproducible quantification of cancer-associated pr
 
 \examples{
 data(SRM_ovarian)
+
+## Example of using MSstats for differential abundance analysis.
+require(MSstats)
+input.proposed <- dataProcess(SRM_ovarian, 
+                            summaryMethod="TMP",
+                            cutoffCensored="minFeature", 
+                            censoredInt="0", 
+                            MBimpute=TRUE,
+                            maxQuantileforCensored=0.999)
+                
+comparison<-matrix(c(1,-1),nrow=1)
+row.names(comparison)<-c("Disease-Healthy")
+
+output.comparison <- groupComparison(contrast.matrix=comparison, 
+                            data=input.proposed)
+head(output.comparison$ComparisonResult)
+
 }
 \keyword{datasets}

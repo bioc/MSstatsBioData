@@ -23,5 +23,25 @@ Cerciello, F. et al. (2013) Identification of a seven glycopeptide signature for
 
 \examples{
 data(SRM_mpm_validation)
+
+## Example of using MSstats for differential abundance analysis.
+require(MSstats)
+input.proposed <- dataProcess(SRM_mpm_validation, 
+                            summaryMethod="TMP",
+                            cutoffCensored="minFeature", 
+                            censoredInt="0", 
+                            MBimpute=TRUE,
+                            maxQuantileforCensored=0.999)
+                
+comparison1<-matrix(c(-1,1,0),nrow=1)
+comparison2<-matrix(c(-1,0,1),nrow=1)
+comparison3<-matrix(c(0,1,-1),nrow=1)
+comparison<-rbind(comparison1, comparison2, comparison3)
+row.names(comparison)<-c("MPM-control","NSCLC-control","MPM-NSCLC")
+
+output.comparison <- groupComparison(contrast.matrix=comparison, 
+                            data=input.proposed)
+head(output.comparison$ComparisonResult)
+
 }
 \keyword{datasets}

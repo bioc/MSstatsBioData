@@ -16,7 +16,7 @@ options(width=110)
 
 Package: MSstatsBioData   
 Author: Meena Choi   
-Date: September 05, 2017   
+Date: October 2, 2017   
 
 ## Overview
 This package provides the peak intensities datasets from seven biological investigations in DDA or SRM experiments. Experimental design, data acqusition and processing steps by spectral processing tools are as described in publications [1-5]. The datasets are formatted as MSstats required format (package `r Biocpkg("MSstats")`). For usage of the data for differential abundance analysis, please refer to the `r Biocpkg("MSstats")` vignette.
@@ -65,13 +65,58 @@ This DDA dataset had no missing values, unusally, because the procedure reported
 
 ## How to use dataset
 
+Here one example (SRM_yeast) of differential abundance analysis by MSstats will be shown. Other example will be available in help file for each datasets.
+
+### 1.Read the data.
 ```{r}
 ## load package
 require(MSstatsBioData)
+
 ## require SRM_yeast data
 data(SRM_yeast)
 ## look at first lines
 head(SRM_yeast)
+```
+
+### 2. Load MSstats package and process the data
+```{r}
+## Example of using MSstats for differential abundance analysis.
+require(MSstats)
+input.proposed <- dataProcess(SRM_yeast, 
+                            summaryMethod="TMP",
+                            cutoffCensored="minFeature", 
+                            censoredInt="0", 
+                            MBimpute=TRUE,
+                            maxQuantileforCensored=0.999)
+```
+
+```{r}
+## set up the comparison that you want.
+comparison1<-matrix(c(-1,1,0,0,0,0,0,0,0,0),nrow=1)
+comparison2<-matrix(c(-1,0,1,0,0,0,0,0,0,0),nrow=1)
+comparison3<-matrix(c(-1,0,0,1,0,0,0,0,0,0),nrow=1)
+comparison4<-matrix(c(-1,0,0,0,1,0,0,0,0,0),nrow=1)
+comparison5<-matrix(c(-1,0,0,0,0,1,0,0,0,0),nrow=1)
+comparison6<-matrix(c(-1,0,0,0,0,0,1,0,0,0),nrow=1)
+comparison7<-matrix(c(-1,0,0,0,0,0,0,1,0,0),nrow=1)
+comparison8<-matrix(c(-1,0,0,0,0,0,0,0,1,0),nrow=1)
+comparison9<-matrix(c(-1,0,0,0,0,0,0,0,0,1),nrow=1)
+
+comparison <- rbind(comparison1,comparison2,comparison3,
+                    comparison4,comparison5,comparison6,
+                    comparison7,comparison8,comparison9)
+row.names(comparison) <- c("T2-T1","T3-T1","T4-T1",
+                            "T5-T1","T6-T1","T7-T1",
+                            "T8-T1","T9-T1","T10-T1")
+```
+
+```{r}
+## test between comparison you set up.
+output.comparison <- groupComparison(contrast.matrix=comparison, 
+                            data=input.proposed)
+
+## output.comparison$ComparisonResult include the result of testing.
+head(output.comparison$ComparisonResult)
 ```
 
 

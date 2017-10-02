@@ -24,5 +24,27 @@ Clough, T. et al. (2009) Protein quantification in label-free LC-MS experiments.
 }
 \examples{
 data(DDA_cardio)
+
+## Example of using MSstats for differential abundance analysis.
+require(MSstats)
+input.proposed <- dataProcess(DDA_cardio, 
+                            summaryMethod="TMP",
+                            cutoffCensored="minFeature", 
+                            censoredInt="NA", 
+                            MBimpute=TRUE,
+                            maxQuantileforCensored=0.999)
+                
+comparison1<-matrix(c(-1,1,0,0,0),nrow=1)
+comparison2<-matrix(c(-1,0,1,0,0),nrow=1)
+comparison3<-matrix(c(-1,0,0,1,0),nrow=1)
+comparison4<-matrix(c(-1,0,0,0,1),nrow=1)
+
+comparison<-rbind(comparison1, comparison2, comparison3, comparison4)
+row.names(comparison)<-c("1-0","2-0","3-0","4-0")
+
+output.comparison <- groupComparison(contrast.matrix=comparison, 
+                            data=input.proposed)
+head(output.comparison$ComparisonResult)
+
 }
 \keyword{datasets}
