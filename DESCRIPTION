@@ -1,7 +1,7 @@
 Package: MSstatsBioData
 Type: Package
 Title: Datasets of published biological studies with DDA or SRM experiments
-Version: 1.10.0
+Version: 1.11.0
 Date: 2017-10-02
 Author: Meena Choi
 Maintainer: Meena Choi <mnchoi67@gmail.com>
